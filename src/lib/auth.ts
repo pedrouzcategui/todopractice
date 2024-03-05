@@ -4,7 +4,6 @@ import NextAuth, { type NextAuthOptions } from "next-auth";
 import { db } from "@/lib/db";
 import { remember } from "@epic-web/remember";
 
-import CredentialsProvider from "next-auth/providers/credentials";
 import Discord from "next-auth/providers/discord";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
@@ -22,17 +21,6 @@ export const authConfig: NextAuthOptions = {
     Discord({
       clientId: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-    }),
-    CredentialsProvider({
-      name: "credentials",
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials, req) {
-        // tbd
-        return null;
-      },
     }),
   ],
   adapter: PrismaAdapter(db),
