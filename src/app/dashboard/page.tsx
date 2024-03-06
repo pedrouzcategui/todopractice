@@ -20,8 +20,9 @@ type SearchParams = {
     view: ViewMode
 }
 
-export default function DashboardPage({ searchParams }: { searchParams: SearchParams } ) {
-    const { view: defaultViewMode } = searchParams
+export default function DashboardPage({ searchParams }: { searchParams: Partial<SearchParams> } ) {
+    const { view } = searchParams
+    const defaultViewMode = view ?? VIEW_MODES.KANBAN
 
     // TODO: workspaces should be populated with users workspaces provided by backend
     const WORKSPACES = [
