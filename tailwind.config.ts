@@ -1,3 +1,8 @@
+import {
+  SiDiscordHex,
+  SiGithubHex,
+  SiGoogleHex,
+} from "@icons-pack/react-simple-icons";
 import type { Config } from "tailwindcss";
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
@@ -55,6 +60,15 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        google: {
+          DEFAULT: SiGoogleHex,
+        },
+        github: {
+          DEFAULT: SiGithubHex,
+        },
+        discord: {
+          DEFAULT: SiDiscordHex,
         },
       },
       borderRadius: {
