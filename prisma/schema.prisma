@@ -63,6 +63,7 @@ model Workspace {
   description String
   thumbnail   String?
   users       UsersOnWorkspaces[]
+  tasks       Task[]
 }
 
 model UsersOnWorkspaces {
@@ -90,4 +91,6 @@ model Task {
   deletedAt   DateTime?
   status      TaskStatus
   users       User[]
+  Workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
 }
