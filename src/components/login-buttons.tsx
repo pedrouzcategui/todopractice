@@ -8,21 +8,21 @@ export default function LoginButtons() {
   return (
     <div className="grid gap-3">
       <Button
-        className={createButtonClass("google")}
+        className={`bg-google border border-google text-card gap-2 hover:bg-google/85 hover:text-card transition-all duration-200`}
         onClick={() => signIn("google")}
       >
         <SiGoogle size={18} />
         Google
       </Button>
       <Button
-        className={createButtonClass("github")}
+        className={`bg-github border border-github text-card gap-2 hover:bg-github/85 hover:text-card transition-all duration-200`}
         onClick={() => signIn("github")}
       >
         <SiGithub size={18} />
         Github
       </Button>
       <Button
-        className={createButtonClass("discord")}
+        className={`bg-discord border border-discord text-card gap-2 hover:bg-discord/85 hover:text-card transition-all duration-200`}
         onClick={() => signIn("discord")}
       >
         <SiDiscord size={18} />
@@ -30,8 +30,4 @@ export default function LoginButtons() {
       </Button>
     </div>
   );
-}
-
-function createButtonClass(provider: "google" | "github" | "discord") {
-  return `bg-${provider} border border-${provider} text-card gap-2 hover:bg-${provider}/85 hover:text-card transition-all duration-200`;
 }
