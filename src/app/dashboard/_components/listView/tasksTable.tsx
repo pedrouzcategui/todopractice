@@ -2,7 +2,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 import { formatDate } from "@/lib/dates"
 import { Task } from "@prisma/client"
-import clsx from "clsx"
 
 type TaskRowProps = {
     task: Task
@@ -57,7 +56,7 @@ export function TasksTable({ tasks }: TasksTableProps) {
         { label: "Description", width: "w-4/12" },
         { label: "Assignee", width: "w-2/12" },
         { label: "Due date", width: "w-2/12" },
-        { label: "Date created", width: "w-2/12"  }
+        { label: "Date created", width: "w-2/12" }
     ]
 
     return (
@@ -65,7 +64,7 @@ export function TasksTable({ tasks }: TasksTableProps) {
             <TableHeader>
                 <TableRow>
                     {TABLE_HEADERS.map(({ label, width }) => (
-                        <TableHead key={label} className={clsx("text-primary", width)}>{label}</TableHead>
+                        <TableHead key={label} className={width}>{label}</TableHead>
                     ))}
                 </TableRow>
             </TableHeader>
