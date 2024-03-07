@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 import { formatDate } from "@/lib/dates"
 import { Task } from "@prisma/client"
+import clsx from "clsx"
 
 type TaskRowProps = {
     task: Task
@@ -32,6 +33,20 @@ function TaskRow({ task }: TaskRowProps) {
     )
 }
 
+type EmptyTaskRowProps = {
+    colSpan: number
+}
+
+function EmptyTasksRow({ colSpan }: EmptyTaskRowProps) {
+    return (
+        <TableRow>
+            <TableCell colSpan={colSpan}>
+                <div className="text-muted-foreground">There is none task created for this status yet</div>
+            </TableCell>
+        </TableRow>
+    )
+}
+
 type TasksTableProps = {
     tasks: Task[]
 }
@@ -50,13 +65,17 @@ export function TasksTable({ tasks }: TasksTableProps) {
             <TableHeader>
                 <TableRow>
                     {TABLE_HEADERS.map(({ label, width }) => (
-                        <TableHead key={label} className={width}>{label}</TableHead>
+                        <TableHead key={label} className={clsx("text-primary", width)}>{label}</TableHead>
                     ))}
                 </TableRow>
             </TableHeader>
 
             <TableBody>
-                {tasks.map((task) => <TaskRow key={task.id} task={task} /> )}
+                { tasks.length ? (
+                    tasks.map((task) => <TaskRow key={task.id} task={task} /> ))
+                    :
+                    <EmptyTasksRow colSpan={TABLE_HEADERS.length} />
+                }
             </TableBody>
         </Table>
     )
