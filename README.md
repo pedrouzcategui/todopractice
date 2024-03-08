@@ -1,4 +1,6 @@
-## User Workspaces
+# User Workspaces
+
+This is a practice project for the CODICON hackathon 2024.
 
 ## How to run the project:
 
