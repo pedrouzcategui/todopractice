@@ -1,14 +1,14 @@
 import { create } from "zustand";
-import type { IWorkspace } from "@/types";
+import type { TWorkspace } from "@/types";
 
 interface WorkspaceState {
-  workspace: IWorkspace;
+  workspace: TWorkspace;
   currentStep: number;
   goNext: () => void;
   goBack: () => void;
-  setWorkspaceProperty: <K extends keyof IWorkspace>(
+  setWorkspaceProperty: <K extends keyof TWorkspace>(
     key: K,
-    value: IWorkspace[K]
+    value: TWorkspace[K]
   ) => void;
 }
 
