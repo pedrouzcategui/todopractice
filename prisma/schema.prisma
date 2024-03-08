@@ -46,8 +46,12 @@ model User {
   id                 String              @id @default(cuid())
   name               String?
   isTutorialFinished Boolean             @default(false)
-  tasks              Task[]
   workspaces         UsersOnWorkspaces[]
+
+  creatorOnTasks  Task[] @relation("TasksCreator")
+  assigneeOnTasks Task[] @relation("TasksAssignee")
+  updaterOnTasks  Task[] @relation("TasksUpdater")
+  deleterOnTasks  Task[] @relation("TasksDeleter")
 
   // Required columns for NextAuth 
   image         String? // Should be set with the avatar image from the registered auth provider
@@ -86,11 +90,21 @@ model Task {
   id          String     @id @default(cuid())
   title       String
   description String
-  dueDate     DateTime?
-  createdAt   DateTime   @default(now())
-  deletedAt   DateTime?
   status      TaskStatus
-  users       User[]
-  Workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  dueDate     DateTime?
+  deletedAt   DateTime?
+
+  Workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
+
+  createdBy     User  @relation(name: "TasksCreator", fields: [createdById], references: [id])
+  assignee      User? @relation(name: "TasksAssignee", fields: [assigneeId], references: [id])
+  lastUpdatedBy User? @relation(name: "TasksUpdater", fields: [lastUpdatedById], references: [id])
+  deletedBy     User? @relation(name: "TasksDeleter", fields: [deletedById], references: [id])
+
+  createdById     String
+  assigneeId      String?
+  lastUpdatedById String?
+  deletedById     String?
 }
