@@ -1,5 +1,5 @@
 import { Task, TaskStatus } from "@prisma/client"
-import { TasksList } from "./tasksList"
+import { TasksList } from "./tasks-list"
 
 type ListViewProps = {
     tasks: Task[]

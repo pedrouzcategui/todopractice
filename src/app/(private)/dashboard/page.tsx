@@ -1,3 +1,4 @@
+import { Task } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,8 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ListView } from "./_components/listView";
-import { Task } from "@prisma/client";
+import { ListView } from "@/components/dashboard/list-view";
 
 // TODO: remove this mock data and replace it with real data from the backend
 const MOCK_TASKS: Task[] = [

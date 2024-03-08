@@ -2,7 +2,7 @@
 
 import { SiDiscord, SiGithub, SiGoogle } from "@icons-pack/react-simple-icons";
 import { signIn } from "next-auth/react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 export default function LoginButtons() {
   return (

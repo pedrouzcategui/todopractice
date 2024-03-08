@@ -2,7 +2,7 @@ import { LucidePlus as PlusIcon } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Task, TaskStatus } from "@prisma/client"
-import { TasksTable } from "./tasksTable"
+import { TasksTable } from "./tasks-table"
 
 type TaskBadgeProps = {
     color: string
