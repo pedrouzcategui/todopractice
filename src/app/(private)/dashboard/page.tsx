@@ -1,3 +1,5 @@
+'use client'
+
 import { Task } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -10,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ListView } from "@/components/dashboard/list-view";
+import { useEffect, useRef } from "react";
 
 // TODO: remove this mock data and replace it with real data from the backend
 const MOCK_TASKS = [
@@ -85,6 +88,21 @@ export default function DashboardPage({
     },
   ];
 
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const handleFocusInput = (event: KeyboardEvent ) => {
+      if (event.ctrlKey && event.code === 'KeyK') {
+        event.preventDefault()
+        searchInputRef.current?.focus()
+      }
+    }
+
+    window.addEventListener('keydown', handleFocusInput)
+
+    return () => window.removeEventListener('keydown', handleFocusInput)
+  }, [])
+
   return (
     <main className="min-h-screen p-4 flex flex-col gap-4 md:gap-6 md:p-10">
       <nav className="flex-grow-0">
@@ -104,7 +122,7 @@ export default function DashboardPage({
           </Select>
 
           {/* TODO: add event listener to focus search input on (Ctrl + K) keypress */}
-          <Input placeholder="Search for a task (Ctrl + K)" />
+          <Input ref={searchInputRef} placeholder="Search for a task (Ctrl + K)" />
 
           <Avatar className="rounded-md hidden md:block">
             {/* TODO: `src` property should reference to user avatar database column */}
