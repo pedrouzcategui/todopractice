@@ -6,7 +6,7 @@ type ListViewProps = {
 }
 
 export function ListView({ tasks }: ListViewProps) {
-    const statuses: TaskStatus[] = ['TODO', 'IN_PROGRESS', 'DONE']
+    const statuses = ['TODO', 'IN_PROGRESS', 'DONE'] satisfies TaskStatus[]
 
     return (
         <section>
