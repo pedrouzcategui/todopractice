@@ -1,3 +1,4 @@
+import { Task } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,7 +9,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ListView } from "@/components/dashboard/list-view";
 
+// TODO: remove this mock data and replace it with real data from the backend
+const MOCK_TASKS = [
+    {
+        id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+        createdAt: new Date(),
+        dueDate: new Date(),
+        deletedAt: null,
+        description: "This is a task description",
+        status: "TODO",
+        title: "Task 1",
+        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9"
+    },
+    {
+        id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+        createdAt: new Date(),
+        dueDate: new Date(),
+        deletedAt: null,
+        description: "This is a task description",
+        status: "IN_PROGRESS",
+        title: "Task 2",
+        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9"
+    },
+    {
+        id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+        createdAt: new Date(),
+        dueDate: null,
+        deletedAt: null,
+        description: "This is a task description",
+        status: "IN_PROGRESS",
+        title: "Task 3",
+        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9"
+    },
+] satisfies Task[]
 /**
  * Available view modes for the tasks display in dashboard.
  */
@@ -103,15 +138,15 @@ export default function DashboardPage({
             </TabsList>
           </header>
 
-          <div className="flex justify-center items-center flex-grow">
+          <div className="flex flex-grow">
             <TabsContent value={VIEW_MODES.KANBAN}>
               {/* TODO: should render Kanban visualization component */}
               <p>This is the kanban</p>
             </TabsContent>
 
-            <TabsContent value={VIEW_MODES.LIST}>
+            <TabsContent className="w-full" value={VIEW_MODES.LIST}>
               {/* TODO: should render List visualization component */}
-              <p>This is the list</p>
+              <ListView tasks={MOCK_TASKS} />
             </TabsContent>
           </div>
         </Tabs>
