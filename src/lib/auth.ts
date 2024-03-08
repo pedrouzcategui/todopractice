@@ -29,3 +29,5 @@ export const authConfig: NextAuthOptions = {
 };
 
 export const auth = remember("auth", () => NextAuth(authConfig));
+
+const testVar = "";
