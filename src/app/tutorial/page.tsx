@@ -6,6 +6,8 @@ import { LOREM_IPSUM } from "@/consts";
 import { cn } from "@/lib/utils";
 import { useTutorialStore } from "@/stores/tutorial.store";
 import clsx from "clsx";
+import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -32,10 +34,39 @@ export default function TutorialPage() {
   const [didStartConfiguration, setDidStartConfiguration] =
     useState<boolean>(false);
   if (!didStartConfiguration) {
-    return <WelcomeStep setStart={setDidStartConfiguration} />;
+    return (
+      <>
+        <SignOutButton />
+        <WelcomeStep setStart={setDidStartConfiguration} />;
+      </>
+    );
   }
 
-  return <TutorialContainer />;
+  return (
+    <>
+      <SignOutButton />
+      <TutorialContainer />
+    </>
+  );
+}
+
+function SignOutButton() {
+  function handleSignOut() {
+    signOut({
+      callbackUrl: "/login",
+    });
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      className="fixed top-6 left-6 text-destructive hover:bg-destructive/25 hover:text-destructive"
+      onClick={handleSignOut}
+    >
+      <LogOut size={16} className="mr-3" />
+      Sign out
+    </Button>
+  );
 }
 
 function WelcomeStep({ setStart }: { setStart: (b: boolean) => void }) {
@@ -107,7 +138,7 @@ function WorkspaceConfigurationSection({
         </Button>
         <h2 className="text-2xl font-bold">{title}</h2>
         <span className="block mb-2">{subtitle}</span>
-        {SECTIONS_INPUTS[currentStep]}
+        {SECTIONS_INPUTS[currentStep]}B
       </div>
       {currentStep === SECTIONS_INPUTS.length - 1 ? (
         <Link href={"/dashboard"} className="ml-auto">
