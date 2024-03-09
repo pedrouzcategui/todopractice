@@ -21,7 +21,10 @@ const MOCK_TASKS = [
         description: "This is a task description",
         status: "TODO",
         title: "Task 1",
-        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9"
+        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
+        order: 1,
+        assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+        createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
     },
     {
         id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
@@ -31,7 +34,10 @@ const MOCK_TASKS = [
         description: "This is a task description",
         status: "IN_PROGRESS",
         title: "Task 2",
-        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9"
+        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
+        order: 2,
+        assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+        createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
     },
     {
         id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
@@ -41,7 +47,10 @@ const MOCK_TASKS = [
         description: "This is a task description",
         status: "IN_PROGRESS",
         title: "Task 3",
-        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9"
+        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
+        order: 3,
+        assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+        createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
     },
 ] satisfies Task[]
 /**

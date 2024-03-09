@@ -88,6 +88,7 @@ model Task {
   id          String     @id @default(cuid())
   title       String
   description String
+  order       Int
   status      TaskStatus
   createdAt   DateTime   @default(now())
   dueDate     DateTime?
