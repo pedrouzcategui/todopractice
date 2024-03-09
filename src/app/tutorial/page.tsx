@@ -75,17 +75,19 @@ function WorkspaceConfigurationSection({
 
   const SECTIONS_INPUTS = [
     <Input
+      key={0}
       onChange={(e) => setWorkspaceProperty("name", e.target.value)}
       value={workspace.name}
       placeholder="Ex: Wayne Industries"
       className="bg-white"
     />,
     <Textarea
+      key={1}
       value={workspace.description}
       onChange={(e) => setWorkspaceProperty("description", e.target.value)}
       className="mb-4 bg-white"
     ></Textarea>,
-    <ImageUploader />,
+    <ImageUploader key={2} />,
   ];
 
   return (
