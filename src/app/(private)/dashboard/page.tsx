@@ -1,7 +1,4 @@
-"use client";
-
-import { ListView } from "@/components/dashboard/list-view";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Task } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -11,8 +8,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Task } from "@prisma/client";
 import { useEffect, useRef } from "react";
+import { ListView } from "@/components/dashboard/list-view";
 
 // TODO: remove this mock data and replace it with real data from the backend
 const MOCK_TASKS = [
@@ -136,13 +133,6 @@ export default function DashboardPage({
             ref={searchInputRef}
             placeholder="Search for a task (Ctrl + K)"
           />
-
-          <Avatar className="rounded-md hidden md:block">
-            {/* TODO: `src` property should reference to user avatar database column */}
-            <AvatarImage src="https://www.clipartmax.com/png/middle/105-1055054_view-golang-think-logo-golang.png" />
-            {/* TODO: fallback should be fullfilled with the first letters of the user name and lastname */}
-            <AvatarFallback>GO</AvatarFallback>
-          </Avatar>
         </div>
       </nav>
 
