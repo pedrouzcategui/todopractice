@@ -40,7 +40,7 @@ export function PUT(req: NextRequest, { params }: { params: { id: string } }) {
 
 export function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   return withAuth(async (session) => {
     try {
