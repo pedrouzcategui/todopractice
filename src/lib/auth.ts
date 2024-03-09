@@ -29,10 +29,26 @@ export const authConfig: NextAuthOptions = {
   pages: { signIn: "/login" },
   session: { strategy: "jwt" },
   callbacks: {
-    async session({ session, user }) {
+    async jwt({ token }) {
+      const user = await db.user.findUnique({
+        where: { email: token.email ?? "" },
+      });
+
+      if (!user) return token;
+
+      token.id = user.id;
+      token.redirectToTutorial = !user.isTutorialFinished;
+
+      return token;
+    },
+    async session({ token, session }) {
       return {
         ...session,
-        user,
+        user: {
+          ...session.user,
+          id: token.id,
+          redirectToTutorial: token.redirectToTutorial,
+        },
       };
     },
   },
