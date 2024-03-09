@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Task } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,46 +16,46 @@ import { useEffect, useRef } from "react";
 
 // TODO: remove this mock data and replace it with real data from the backend
 const MOCK_TASKS = [
-    {
-        id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-        createdAt: new Date(),
-        dueDate: new Date(),
-        deletedAt: null,
-        description: "This is a task description",
-        status: "TODO",
-        title: "Task 1",
-        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
-        order: 1,
-        assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-        createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-    },
-    {
-        id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-        createdAt: new Date(),
-        dueDate: new Date(),
-        deletedAt: null,
-        description: "This is a task description",
-        status: "IN_PROGRESS",
-        title: "Task 2",
-        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
-        order: 2,
-        assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-        createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-    },
-    {
-        id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-        createdAt: new Date(),
-        dueDate: null,
-        deletedAt: null,
-        description: "This is a task description",
-        status: "IN_PROGRESS",
-        title: "Task 3",
-        workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
-        order: 3,
-        assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-        createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
-    },
-] satisfies Task[]
+  {
+    id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+    createdAt: new Date(),
+    dueDate: new Date(),
+    deletedAt: null,
+    description: "This is a task description",
+    status: "TODO",
+    title: "Task 1",
+    workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
+    order: 1,
+    assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+    createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+  },
+  {
+    id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+    createdAt: new Date(),
+    dueDate: new Date(),
+    deletedAt: null,
+    description: "This is a task description",
+    status: "IN_PROGRESS",
+    title: "Task 2",
+    workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
+    order: 2,
+    assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+    createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+  },
+  {
+    id: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+    createdAt: new Date(),
+    dueDate: null,
+    deletedAt: null,
+    description: "This is a task description",
+    status: "IN_PROGRESS",
+    title: "Task 3",
+    workspaceId: "935ff71b-af36-4d25-adcf-465fd4d351e9",
+    order: 3,
+    assigneeId: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+    createdById: "b22ae91b-7ad1-499b-9ff9-2aa8720c06ec",
+  },
+] satisfies Task[];
 
 /**
  * Available view modes for the tasks display in dashboard.
@@ -98,21 +98,20 @@ export default function DashboardPage({
     },
   ];
 
-  const searchInputRef = useRef<HTMLInputElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(function bindGlobalKeydown() {
     function focusSearchInput(event: KeyboardEvent) {
-      if (event.ctrlKey && event.code === 'KeyK') {
-        event.preventDefault()
-        searchInputRef.current?.focus()
+      if (event.ctrlKey && event.code === "KeyK") {
+        event.preventDefault();
+        searchInputRef.current?.focus();
       }
     }
 
-    window.addEventListener('keydown', focusSearchInput)
+    window.addEventListener("keydown", focusSearchInput);
 
-    return () => window.addEventListener('keydown', focusSearchInput)
-  }, [])
-
+    return () => window.addEventListener("keydown", focusSearchInput);
+  }, []);
 
   return (
     <main className="min-h-screen p-4 flex flex-col gap-4 md:gap-6 md:p-10">
@@ -133,7 +132,10 @@ export default function DashboardPage({
           </Select>
 
           {/* TODO: add event listener to focus search input on (Ctrl + K) keypress */}
-          <Input ref={searchInputRef} placeholder="Search for a task (Ctrl + K)" />
+          <Input
+            ref={searchInputRef}
+            placeholder="Search for a task (Ctrl + K)"
+          />
 
           <Avatar className="rounded-md hidden md:block">
             {/* TODO: `src` property should reference to user avatar database column */}

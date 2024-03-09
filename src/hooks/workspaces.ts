@@ -7,7 +7,7 @@ export function useCreateWorkspace() {
     async mutationFn(data: Prisma.WorkspaceCreateInput) {
       const response = await api.post<Prisma.WorkspaceCreateInput, Workspace>(
         "/workspaces",
-        data
+        data,
       );
 
       return response.data;

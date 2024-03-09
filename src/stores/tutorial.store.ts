@@ -8,7 +8,7 @@ interface WorkspaceState {
   goBack: () => void;
   setWorkspaceProperty: <K extends keyof TWorkspace>(
     key: K,
-    value: TWorkspace[K]
+    value: TWorkspace[K],
   ) => void;
 }
 
