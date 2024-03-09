@@ -1,11 +1,55 @@
-import { getSession } from "@/lib/user";
-import { redirect } from "next/navigation";
 import { Button } from "@/components/ui";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   BarChart2 as DashboardIcon,
+  LucideIcon,
   Settings as SettingsIcon,
 } from "lucide-react";
+import { getSession } from "@/lib/user";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
+type NavigationItemProps = {
+  title: string;
+  icon: LucideIcon;
+  href: string;
+};
+
+function NavigationItem({ href, title, icon: Icon }: NavigationItemProps) {
+  // Tooltip configuration
+  const TOOLTIP_DELAY = 250; // 250ms
+  const TOOLTIP_OFFSET = 12; // 12px
+  const TOOLTIP_SIDE = "right";
+
+  // Icon configuration
+  const ICON_SIZE = 24; // 24px
+
+  return (
+    <TooltipProvider key={href}>
+      <Tooltip delayDuration={TOOLTIP_DELAY}>
+        <TooltipTrigger>
+          <li>
+            <Button size="icon" asChild>
+              <Link href={href}>
+                <Icon size={ICON_SIZE} />
+              </Link>
+            </Button>
+          </li>
+        </TooltipTrigger>
+
+        <TooltipContent sideOffset={TOOLTIP_OFFSET} side={TOOLTIP_SIDE}>
+          <span>{title}</span>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+}
 
 function VerticalNavigation() {
   const NAVIGATION_ITEMS = [
@@ -19,19 +63,13 @@ function VerticalNavigation() {
       icon: SettingsIcon,
       href: "/dashboard/settings",
     },
-  ];
+  ] satisfies NavigationItemProps[];
 
   return (
     <nav className="h-full flex p-4 justify-between bg-white shadow-md md:py-10 md:flex-col">
       <ul className="flex gap-6 md:flex-col">
-        {NAVIGATION_ITEMS.map(({ href, icon: Icon }) => (
-          <li key={href}>
-            <Button size="icon" asChild>
-              <a href={href}>
-                <Icon size={24} />
-              </a>
-            </Button>
-          </li>
+        {NAVIGATION_ITEMS.map((item) => (
+          <NavigationItem key={item.href} {...item} />
         ))}
       </ul>
 
