@@ -1,7 +1,13 @@
 import LoginButtons from "@/components/login/login-buttons";
+import { getSession } from "@/lib/user";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export default async function LoginPage() {
+  const session = await getSession();
+
+  if (session?.user) redirect("/dashboard");
+
   return (
     <main>
       {/* Main Login Wrapper */}

@@ -8,7 +8,7 @@ export default function LoginButtons() {
   function handleLogin(provider: "google" | "github" | "discord") {
     return async () => {
       await signIn(provider, {
-        callbackUrl: `${window.location.origin}/dashboard`,
+        callbackUrl: "/dashboard",
       });
     };
   }

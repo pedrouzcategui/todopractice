@@ -7,6 +7,7 @@ declare module "next-auth" {
   type Session = {
     user: {
       id?: string;
+      redirectToTutorial?: boolean;
     } & DefaultSession["user"];
   };
 }
