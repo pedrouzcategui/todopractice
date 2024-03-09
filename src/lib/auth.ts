@@ -7,7 +7,7 @@ import { remember } from "@epic-web/remember";
 import Discord from "next-auth/providers/discord";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getSession } from "./user";
 
 export const authConfig: NextAuthOptions = {
@@ -40,16 +40,14 @@ export const authConfig: NextAuthOptions = {
 
 export const auth = remember("auth", () => NextAuth(authConfig));
 
-export function withAuth(
-  handler: (req: NextRequest, session: Session) => Promise<NextResponse>
-) {
-  return async (req: NextRequest) => {
+export function withAuth(handler: (session: Session) => Promise<NextResponse>) {
+  return async () => {
     const session = await getSession();
 
     if (!session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    return handler(req, session);
+    return handler(session);
   };
 }
