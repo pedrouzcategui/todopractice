@@ -1,7 +1,7 @@
-import { create } from "zustand";
 import type { TWorkspace } from "@/types";
+import { create } from "zustand";
 
-interface WorkspaceState {
+type WorkspaceState = {
   workspace: TWorkspace;
   currentStep: number;
   goNext: () => void;
@@ -10,7 +10,7 @@ interface WorkspaceState {
     key: K,
     value: TWorkspace[K],
   ) => void;
-}
+};
 
 export const useTutorialStore = create<WorkspaceState>()((set) => ({
   workspace: {
