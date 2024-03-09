@@ -1,7 +1,7 @@
 import LoginButtons from "@/components/login/login-buttons";
 import React from "react";
 
-export default function LoginPage() {
+export default async function LoginPage() {
   return (
     <main>
       {/* Main Login Wrapper */}

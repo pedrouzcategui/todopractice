@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth, { Session, type NextAuthOptions } from "next-auth";
 
 import { db } from "@/lib/db";
 import { remember } from "@epic-web/remember";
@@ -7,6 +7,8 @@ import { remember } from "@epic-web/remember";
 import Discord from "next-auth/providers/discord";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import { NextResponse } from "next/server";
+import { getSession } from "./user";
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -26,6 +28,26 @@ export const authConfig: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   pages: { signIn: "/login" },
   session: { strategy: "jwt" },
+  callbacks: {
+    async session({ session, user }) {
+      return {
+        ...session,
+        user,
+      };
+    },
+  },
 };
 
 export const auth = remember("auth", () => NextAuth(authConfig));
+
+export function withAuth(handler: (session: Session) => Promise<NextResponse>) {
+  return async () => {
+    const session = await getSession();
+
+    if (!session) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    return handler(session);
+  };
+}
