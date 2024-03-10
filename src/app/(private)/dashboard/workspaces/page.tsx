@@ -1,6 +1,7 @@
 import Controls from "@/components/dashboard/workspaces/controls";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/user";
+import Image from "next/image";
 
 type PageProps = {
   searchParams: Record<string, string | undefined>;
@@ -52,14 +53,16 @@ export default async function WorkspacesPage({ searchParams }: PageProps) {
       <Controls />
 
       <section className="grid md:grid-cols-2 lg:grid-cols-3 mt-12 gap-8">
-        {userWorkspaces?.map(({ id, title, description }) => (
+        {userWorkspaces?.map(({ id, title, thumbnail, description }) => (
           <article
             key={id}
             className="flex gap-6 p-6 shadow bg-card text-card-foreground border border-border/50 rounded-lg"
           >
             <figure className="min-w-[100px] min-h-[100px]">
-              <img
-                src={`https://source.unsplash.com/100x100/?${title}`}
+              <Image
+                width={100}
+                height={100}
+                src={thumbnail ?? "/placeholder.jpg"}
                 alt=""
                 className="rounded-lg"
               />

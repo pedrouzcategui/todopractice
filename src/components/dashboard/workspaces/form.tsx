@@ -42,7 +42,6 @@ export default function WorkspaceForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log(form);
     await onSubmit(form);
   }
 
