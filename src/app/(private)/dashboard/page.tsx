@@ -117,7 +117,7 @@ export default function DashboardPage({
       <nav className="flex-grow-0">
         <div className="flex flex-col gap-2 md:flex-row md:gap-6">
           <Select>
-            <SelectTrigger className="w-full md:w-1/5">
+            <SelectTrigger className="w-full md:w-1/5 bg-white">
               <SelectValue placeholder="Workspace" />
             </SelectTrigger>
 
@@ -132,6 +132,7 @@ export default function DashboardPage({
 
           {/* TODO: add event listener to focus search input on (Ctrl + K) keypress */}
           <Input
+            className="bg-white"
             ref={searchInputRef}
             placeholder="Search for a task (Ctrl + K)"
           />
@@ -145,15 +146,15 @@ export default function DashboardPage({
           className="flex flex-col flex-grow"
         >
           <header className="flex flex-col gap-1 items-center flex-grow-0">
-            <TabsList className="px-3 py-6 w-full md:max-w-max">
+            <TabsList className="bg-white px-3 py-6 flex gap-4 w-full md:max-w-max shadow-sm">
               <TabsTrigger
-                className="w-full md:w-[100px]"
+                className="w-full md:w-[100px] data-[state=active]:bg-primary data-[state=active]:text-white"
                 value={VIEW_MODES.KANBAN}
               >
                 Kanban
               </TabsTrigger>
               <TabsTrigger
-                className="w-full md:w-[100px]"
+                className="w-full md:w-[100px] data-[state=active]:bg-primary data-[state=active]:text-white"
                 value={VIEW_MODES.LIST}
               >
                 List
