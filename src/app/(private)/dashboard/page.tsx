@@ -1,3 +1,5 @@
+"use client";
+
 import { Task } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import {
