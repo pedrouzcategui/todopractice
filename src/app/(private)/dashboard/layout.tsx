@@ -13,7 +13,7 @@ export default async function DashboardLayout({
   else if (session.user.redirectToTutorial) redirect("/tutorial");
 
   return (
-    <main className="flex flex-col md:flex-row">
+    <main className="min-h-screen flex flex-col md:flex-row">
       <aside className="flex-grow-0">
         <VerticalNavigation />
       </aside>
