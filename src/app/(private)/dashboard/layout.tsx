@@ -18,7 +18,7 @@ export default async function DashboardLayout({
         <VerticalNavigation />
       </aside>
 
-      <section className="flex-grow">{children}</section>
+      <section className="flex-grow p-4 md:p-10">{children}</section>
     </main>
   );
 }

@@ -113,7 +113,7 @@ export default function DashboardPage({
   }, []);
 
   return (
-    <section className="p-4 flex flex-col gap-4 md:gap-6 md:p-10">
+    <section className="flex flex-col gap-4 md:gap-6">
       <nav className="flex-grow-0">
         <div className="flex flex-col gap-2 md:flex-row md:gap-6">
           <Select>
