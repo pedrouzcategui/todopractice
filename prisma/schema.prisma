@@ -94,7 +94,7 @@ model Task {
   dueDate     DateTime?
   deletedAt   DateTime?
 
-  Workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
 
   createdBy User  @relation(name: "TasksCreator", fields: [createdById], references: [id])
