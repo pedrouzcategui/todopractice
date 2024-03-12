@@ -57,9 +57,9 @@ export function VerticalNavigation() {
       href: "/dashboard",
     },
     {
-      title: "Settings",
+      title: "Profile",
       icon: SettingsIcon,
-      href: "/dashboard/settings",
+      href: "/dashboard/profile",
     },
   ] satisfies NavigationItemProps[];
 
