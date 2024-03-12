@@ -16,7 +16,7 @@ export const useTutorialStore = create<WorkspaceState>()((set) => ({
   workspace: {
     name: "",
     description: "",
-    image_url: "",
+    image: undefined,
   },
   currentStep: 0,
   goNext: () => set((state) => ({ currentStep: state.currentStep + 1 })),

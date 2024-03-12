@@ -3,12 +3,16 @@
 import { ImageUploader } from "@/components/ImageUploader";
 import { Button, Input, Textarea } from "@/components/ui";
 import { LOREM_IPSUM } from "@/consts";
+import { useCreateWorkspace } from "@/hooks/workspaces";
+import { api } from "@/lib/api";
+import { useUploadThing } from "@/lib/files";
 import { cn } from "@/lib/utils";
 import { useTutorialStore } from "@/stores/tutorial.store";
 import clsx from "clsx";
 import { LogOut } from "lucide-react";
+import { nanoid } from "nanoid";
 import { signOut } from "next-auth/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type WorkspaceConfigurationStepProps = {
@@ -104,6 +108,39 @@ function WorkspaceConfigurationSection({
     (state) => state.setWorkspaceProperty,
   );
 
+  const router = useRouter();
+  const { mutateAsync, isPending: isUploadingFormData } = useCreateWorkspace();
+  const { startUpload, isUploading: isUploadingImage } =
+    useUploadThing("imageUploader");
+
+  async function handleSubmit(data: {
+    title: string;
+    description: string;
+    image?: File;
+  }) {
+    let thumbnail = "";
+
+    // TODO: delete image on error
+    if (data.image) {
+      const extension = data.image.name.split(".").pop();
+      const newFile = new File([data.image], nanoid() + "." + extension);
+      const [{ url }] = (await startUpload([newFile])) as { url: string }[];
+      thumbnail = url;
+    }
+
+    await mutateAsync({
+      description: data.description,
+      title: data.title,
+      thumbnail,
+    });
+    await api.get("/revalidate?path=/dashboard/workspaces");
+    router.refresh();
+    alert("Workspace created!");
+    router.push("/dashboard/workspaces");
+  }
+
+  const isLoading = isUploadingFormData || isUploadingImage;
+
   const SECTIONS_INPUTS = [
     <Input
       key={0}
@@ -128,9 +165,7 @@ function WorkspaceConfigurationSection({
           variant={"ghost"}
           className={cn(
             "px-0 mb-6 text-sm text-gray-400 hover:text-gray-800 transition-colors",
-            {
-              hidden: currentStep === 0,
-            },
+            { hidden: currentStep === 0 },
           )}
           onClick={() => goBack()}
         >
@@ -138,13 +173,22 @@ function WorkspaceConfigurationSection({
         </Button>
         <h2 className="text-2xl font-bold">{title}</h2>
         <span className="block mb-2">{subtitle}</span>
-        {SECTIONS_INPUTS[currentStep]}B
+        {SECTIONS_INPUTS[currentStep]}
       </div>
       {currentStep === SECTIONS_INPUTS.length - 1 ? (
-        <Link href={"/dashboard"} className="ml-auto">
-          {" "}
-          <Button className="w-fit">Finish</Button>
-        </Link>
+        <Button
+          className="w-fit"
+          onClick={() =>
+            handleSubmit({
+              title: workspace.name,
+              description: workspace.description,
+              image: workspace.image,
+            })
+          }
+          disabled={isLoading}
+        >
+          Finish
+        </Button>
       ) : (
         <Button
           className={"w-fit ml-auto"}
@@ -160,6 +204,7 @@ function WorkspaceConfigurationSection({
 
 function WorkspacePreview() {
   const workspace = useTutorialStore((state) => state.workspace);
+  const imageUrl = URL.createObjectURL(workspace.image || new Blob());
 
   return (
     <div>
@@ -171,7 +216,7 @@ function WorkspacePreview() {
           className="w-[150px] h-[150px] bg-slate-400"
           style={{
             backgroundImage: `url(${
-              workspace.image_url || "https://placehold.co/150x150"
+              workspace.image ? imageUrl : "https://placehold.co/150x150"
             })`,
             backgroundSize: "cover",
           }}

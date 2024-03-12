@@ -1,8 +1,8 @@
 "use client";
 
-import { ChangeEvent } from "react";
 import { Input } from "@/components/ui";
 import { useTutorialStore } from "@/stores/tutorial.store";
+import { ChangeEvent } from "react";
 
 export function ImageUploader() {
   const setWorkspaceProperty = useTutorialStore(
@@ -11,15 +11,9 @@ export function ImageUploader() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    if (file && file.type.substr(0, 5) === "image") {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setWorkspaceProperty("image_url", reader.result as string); // Cast reader.result to string
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setWorkspaceProperty("image_url", "");
+    if (file) {
+      setWorkspaceProperty("image", file);
     }
   };
-  return <Input type="file" onChange={handleImageChange} />;
+  return <Input type="file" onChange={handleImageChange} accept="img" />;
 }
