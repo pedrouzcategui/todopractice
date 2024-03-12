@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/user";
 import { redirect } from "next/navigation";
+import { VerticalNavigation } from "@/components/dashboard/layout";
 
 export default async function DashboardLayout({
   children,
@@ -11,5 +12,13 @@ export default async function DashboardLayout({
   if (!session) return null;
   else if (session.user.redirectToTutorial) redirect("/tutorial");
 
-  return <>{children}</>;
+  return (
+    <main className="flex flex-col md:flex-row">
+      <aside className="flex-grow-0">
+        <VerticalNavigation />
+      </aside>
+
+      <section className="flex-grow">{children}</section>
+    </main>
+  );
 }
