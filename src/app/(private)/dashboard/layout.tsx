@@ -9,8 +9,8 @@ export default async function DashboardLayout({
 }) {
   const session = await getSession();
 
-  if (!session) return null;
-  // else if (session.user.redirectToTutorial) redirect("/tutorial");
+  /* if (!session) return null;
+  else if (session.user.redirectToTutorial) redirect("/tutorial"); */
 
   return (
     <main className="min-h-screen flex flex-col md:flex-row">
