@@ -17,7 +17,7 @@ export function GET(req: NextRequest, { params }: { params: { id: string } }) {
       const data = parseApiError(error);
       return NextResponse.json(data, { status: 500 });
     }
-  });
+  })();
 }
 
 export function PUT(req: NextRequest, { params }: { params: { id: string } }) {
@@ -35,7 +35,7 @@ export function PUT(req: NextRequest, { params }: { params: { id: string } }) {
       const data = parseApiError(error);
       return NextResponse.json(data, { status: 500 });
     }
-  });
+  })();
 }
 
 export function DELETE(
@@ -54,5 +54,5 @@ export function DELETE(
       const data = parseApiError(error);
       return NextResponse.json(data, { status: 500 });
     }
-  });
+  })();
 }
