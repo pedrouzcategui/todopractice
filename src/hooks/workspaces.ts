@@ -5,10 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 export function useCreateWorkspace() {
   return useMutation({
     async mutationFn(data: Prisma.WorkspaceCreateInput) {
-      const response = await api.post<Prisma.WorkspaceCreateInput, Workspace>(
-        "/workspace",
-        data,
-      );
+      const response = await api.post<Workspace>("/workspace", data);
 
       return response.data;
     },

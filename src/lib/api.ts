@@ -6,7 +6,9 @@ const axiosInstance = axios.create({
 
 export const api = {
   get: <R>(url: string) => axiosInstance.get<R>(url),
-  post: <T, R>(url: string, data: T) => axiosInstance.post<R>(url, data),
-  put: <T, R>(url: string, data: T) => axiosInstance.put<R>(url, data),
+  post: <R>(url: string, data: unknown = undefined) =>
+    axiosInstance.post<R>(url, data),
+  put: <R>(url: string, data: unknown = undefined) =>
+    axiosInstance.put<R>(url, data),
   delete: <R>(url: string) => axiosInstance.delete<R>(url),
 };
