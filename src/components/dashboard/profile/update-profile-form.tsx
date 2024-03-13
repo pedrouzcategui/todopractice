@@ -2,8 +2,80 @@
 
 import { ImageInput } from "@/components/image-input";
 import { Button, Input, Label } from "@/components/ui";
+import { cn } from "@/lib/utils";
+import {
+  IconType,
+  SiDiscord as DiscordIcon,
+  SiGithub as GithubIcon,
+  SiGoogle as GoogleIcon,
+} from "@icons-pack/react-simple-icons";
 import { Loader } from "lucide-react";
 import { useState } from "react";
+
+type AuthProviders = "google" | "discord" | "github";
+const AUTH_PROVIDERS = [
+  "google",
+  "discord",
+  "github",
+] satisfies AuthProviders[];
+
+type ProviderItemProps = {
+  color: string;
+  Icon: IconType;
+};
+
+const AUTH_PROVIDERS_STYLES = {
+  google: {
+    color: "bg-google",
+    Icon: GoogleIcon,
+  },
+  discord: {
+    color: "bg-discord",
+    Icon: DiscordIcon,
+  },
+  github: {
+    color: "bg-github",
+    Icon: GithubIcon,
+  },
+} satisfies Record<AuthProviders, ProviderItemProps>;
+
+type AuthProvidersListProps = {
+  providers: AuthProviders[];
+};
+
+function AuthProvidersList({ providers }: AuthProvidersListProps) {
+  return (
+    <section className="flex flex-col gap-2">
+      <header>
+        <h3 className="font-semibold text-center">Linked accounts</h3>
+      </header>
+
+      <ul className="flex justify-center gap-4">
+        {AUTH_PROVIDERS.map((provider) => {
+          const isLinked = providers.includes(provider);
+          const { color, Icon } = AUTH_PROVIDERS_STYLES[provider];
+
+          return (
+            <li key={provider}>
+              <Button
+                asChild
+                disabled={!isLinked}
+                size="icon"
+                className={cn(
+                  "p-2 pointer-events-none",
+                  color,
+                  !isLinked && "opacity-45",
+                )}
+              >
+                <Icon />
+              </Button>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
 
 type ProfileForm = {
   name: string;
@@ -66,15 +138,7 @@ export function UpdateProfileForm({
           />
         </div>
 
-        <div>
-          <h3>Linked accounts</h3>
-
-          <ul>
-            {authProviders.map((account) => (
-              <li key={account}>{account}</li>
-            ))}
-          </ul>
-        </div>
+        <AuthProvidersList providers={authProviders as AuthProviders[]} />
 
         {false ? (
           <Button disabled>
