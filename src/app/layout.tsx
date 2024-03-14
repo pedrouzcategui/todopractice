@@ -1,3 +1,4 @@
+import Providers from "@/components/providers";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Open_Sans as FontSans } from "next/font/google";
@@ -23,7 +24,7 @@ export default async function RootLayout({
           fontSans.variable,
         )}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

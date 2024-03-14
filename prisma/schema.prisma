@@ -88,12 +88,13 @@ model Task {
   id          String     @id @default(cuid())
   title       String
   description String
+  order       Int
   status      TaskStatus
   createdAt   DateTime   @default(now())
   dueDate     DateTime?
   deletedAt   DateTime?
 
-  Workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   workspaceId String
 
   createdBy User  @relation(name: "TasksCreator", fields: [createdById], references: [id])
