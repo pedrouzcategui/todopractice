@@ -16,7 +16,7 @@ type TaskCreationForm = {
     title: string,
     description: string,
     status: TaskStatus,
-    dueDate: string,
+    dueDate: string | Date,
     asignee_id: string,
     workspaceId: string,
     createdById: string,
@@ -61,13 +61,16 @@ export default function TaskCreationForm({ users, workspaceId, createdById }: Ta
                 return;
             }
         }
-
         createTask({
             title: taskForm.title,
             description: taskForm.description,
             status: 'TODO',
-            dueDate: taskForm.dueDate,
-            asigneeId: taskForm.asignee_id,
+            dueDate: new Date(taskForm.dueDate),
+            assignee: {
+                connect: {
+                    id: taskForm.asignee_id
+                }
+            },
             Workspace: {
                 connect: {
                     id: workspaceId

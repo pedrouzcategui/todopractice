@@ -6,8 +6,12 @@ export type TaskCreationInput = {
   title: string;
   description: string;
   status: TaskStatus;
-  dueDate: string;
-  asigneeId: string;
+  dueDate: string | Date;
+  assignee: {
+    connect: {
+      id: string;
+    };
+  };
   Workspace: {
     connect: {
       id: string;

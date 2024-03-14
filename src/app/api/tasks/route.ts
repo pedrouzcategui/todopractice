@@ -14,8 +14,17 @@ export async function POST(req: NextRequest) {
         throw new Error("Bad request: User not found.");
       }
 
+      const tasksCount = await db.task.count({
+        where: {
+          status: data.status,
+        },
+      });
+
       const task = await db.task.create({
-        data,
+        data: {
+          ...data,
+          order: tasksCount + 1,
+        },
       });
 
       return NextResponse.json(task, { status: 201 });
