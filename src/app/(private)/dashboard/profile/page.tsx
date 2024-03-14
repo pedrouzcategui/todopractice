@@ -17,7 +17,7 @@ export default async function ProfilePage() {
 
   return (
     <section className="flex justify-center items-center">
-      <Card className="w-3/12 flex flex-col gap-4 px-12 py-12 justify-center items-center">
+      <Card className="w-full md:w-1/2 xl:w-1/3 2xl:w-1/4 flex flex-col gap-4 px-12 py-12 justify-center items-center">
         <header>
           <h2 className="text-center text-2xl font-bold">Profile</h2>
         </header>
