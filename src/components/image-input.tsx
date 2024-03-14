@@ -1,13 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type ImageInputProps = {
   image?: string;
+  handleImageChange: (file: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function ImageInput({ image }: ImageInputProps) {
+export function ImageInput({ image, handleImageChange }: ImageInputProps) {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   // TODO: add logic for handling image uploads
@@ -17,7 +18,12 @@ export function ImageInput({ image }: ImageInputProps) {
 
   return (
     <figure>
-      <input ref={imageInputRef} type="file" className="hidden" />
+      <input
+        ref={imageInputRef}
+        onChange={handleImageChange}
+        type="file"
+        className="hidden"
+      />
       <Avatar onClick={handleOpenFileSelector} className="h-36 w-36">
         <AvatarImage src={image} alt="Current profile image" />
         <AvatarFallback>Change</AvatarFallback>

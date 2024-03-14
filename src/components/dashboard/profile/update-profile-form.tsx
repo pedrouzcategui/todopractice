@@ -4,6 +4,7 @@ import { ImageInput } from "@/components/image-input";
 import { Button, Input, Label } from "@/components/ui";
 import { useToast } from "@/components/ui/use-toast";
 import { useUpdateProfile } from "@/hooks/profile";
+import { useUploadThing } from "@/lib/files";
 import { cn } from "@/lib/utils";
 import {
   IconType,
@@ -81,6 +82,8 @@ function AuthProvidersList({ providers }: AuthProvidersListProps) {
 
 type ProfileForm = {
   name: string;
+  imageUrl: string;
+  file: File | null;
 };
 
 const FORM_IDS = {
@@ -102,10 +105,16 @@ export function UpdateProfileForm({
   authProviders,
 }: UpdateProfileFormProps) {
   const { toast } = useToast();
-  const { mutateAsync, isPending } = useUpdateProfile();
+  const { mutateAsync, isPending: isUploadingForm } = useUpdateProfile();
+  const { startUpload, isUploading: isUploadingImage } =
+    useUploadThing("imageUploader");
+
+  const isLoading = isUploadingForm || isUploadingImage;
 
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     name,
+    imageUrl: image ?? "",
+    file: null,
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,11 +122,35 @@ export function UpdateProfileForm({
     setProfileForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfileForm((prev) => ({ ...prev, file, imageUrl }));
+    }
+  };
+
   const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
 
-      await mutateAsync(profileForm);
+      let thumbnail = "";
+
+      if (profileForm.file) {
+        const extension = profileForm.file.name.split(".").pop();
+        const newFile = new File(
+          [profileForm.file],
+          `profile-image-${email}.${extension}`,
+        );
+        const [{ url }] = (await startUpload([newFile])) as { url: string }[];
+        thumbnail = url;
+      }
+
+      await mutateAsync({
+        name: profileForm.name,
+        image: thumbnail,
+      });
 
       toast({
         title: "Profile updated successfully",
@@ -133,7 +166,10 @@ export function UpdateProfileForm({
   };
   return (
     <section className="w-full flex flex-col gap-4 items-center justify-center">
-      <ImageInput image={image} />
+      <ImageInput
+        handleImageChange={handleImageChange}
+        image={profileForm.imageUrl}
+      />
 
       <form onSubmit={handleSubmitForm} className="w-full flex flex-col gap-6">
         <div className="flex flex-col justify-center gap-2">
@@ -158,8 +194,8 @@ export function UpdateProfileForm({
 
         <AuthProvidersList providers={authProviders as AuthProviders[]} />
 
-        <Button disabled={isPending}>
-          {isPending ? (
+        <Button disabled={isLoading}>
+          {isLoading ? (
             <Loader className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <span>Save</span>
