@@ -5,10 +5,7 @@ import { api } from "@/lib/api";
 export function useUpdateProfile() {
   return useMutation({
     async mutationFn(data: Prisma.UserUpdateInput) {
-      const response = await api.put<Prisma.UserUpdateInput, void>(
-        "/profile",
-        data,
-      );
+      const response = await api.put<Prisma.UserUpdateInput>("/profile", data);
 
       return response.data;
     },

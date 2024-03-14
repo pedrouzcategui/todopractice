@@ -3,6 +3,7 @@
 import { ImageInput } from "@/components/image-input";
 import { Button, Input, Label } from "@/components/ui";
 import { useToast } from "@/components/ui/use-toast";
+import { useUpdateProfile } from "@/hooks/profile";
 import { cn } from "@/lib/utils";
 import {
   IconType,
@@ -101,6 +102,7 @@ export function UpdateProfileForm({
   authProviders,
 }: UpdateProfileFormProps) {
   const { toast } = useToast();
+  const { mutateAsync, isPending } = useUpdateProfile();
 
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     name,
@@ -111,14 +113,16 @@ export function UpdateProfileForm({
     setProfileForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
+
+      await mutateAsync(profileForm);
 
       toast({
         title: "Profile updated successfully",
         description: "Your changes has been saved.",
-        className: "bg-success text-success-foreground fill-success-foreground",
+        variant: "success",
       });
     } catch (error) {
       toast({
@@ -154,16 +158,13 @@ export function UpdateProfileForm({
 
         <AuthProvidersList providers={authProviders as AuthProviders[]} />
 
-        {false ? (
-          <Button disabled>
+        <Button disabled={isPending}>
+          {isPending ? (
             <Loader className="mr-2 h-4 w-4 animate-spin" />
-            Saving...
-          </Button>
-        ) : (
-          <Button variant="default" className="w-full" type="submit">
-            Save
-          </Button>
-        )}
+          ) : (
+            <span>Save</span>
+          )}
+        </Button>
       </form>
     </section>
   );
