@@ -2,6 +2,7 @@
 
 import { ImageInput } from "@/components/image-input";
 import { Button, Input, Label } from "@/components/ui";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import {
   IconType,
@@ -99,6 +100,8 @@ export function UpdateProfileForm({
   name,
   authProviders,
 }: UpdateProfileFormProps) {
+  const { toast } = useToast();
+
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     name,
   });
@@ -109,9 +112,20 @@ export function UpdateProfileForm({
   };
 
   const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    console.log(profileForm);
+      toast({
+        title: "Profile updated successfully",
+        description: "Your changes has been saved.",
+        className: "bg-success text-success-foreground fill-success-foreground",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to update profile",
+        variant: "destructive",
+      });
+    }
   };
   return (
     <section className="w-full flex flex-col gap-4 items-center justify-center">
