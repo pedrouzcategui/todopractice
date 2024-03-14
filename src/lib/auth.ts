@@ -38,6 +38,7 @@ export const authConfig: NextAuthOptions = {
 
       token.id = user.id;
       token.redirectToTutorial = !user.isTutorialFinished;
+      token.name = user.name;
 
       return token;
     },
@@ -47,6 +48,7 @@ export const authConfig: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
+          name: token.name,
           redirectToTutorial: token.redirectToTutorial,
         },
       };
