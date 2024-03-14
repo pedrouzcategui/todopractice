@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import { getSession } from "@/lib/user";
 import { redirect } from "next/navigation";
 
@@ -12,5 +13,8 @@ export default async function PrivateLayout({
     redirect("/login");
   }
 
-  return <>{children}</>;
+  return (<>
+    {children}
+    <Toaster />
+  </>);
 }
