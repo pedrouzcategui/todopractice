@@ -5,10 +5,10 @@ import { Button, Input, Label } from "@/components/ui";
 import { useToast } from "@/components/ui/use-toast";
 import { AuthProvider } from "@/constants/auth";
 import { useUpdateProfile } from "@/hooks/profile";
-import { useUploadThing } from "@/lib/files";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import { AuthProvidersList } from "./auth-providers-list";
+import { useUploadImage } from "@/hooks/uploadImage";
 
 const FORM_IDS = {
   name: "name",
@@ -25,7 +25,7 @@ type UpdateProfileFormProps = {
 type ProfileForm = {
   name: string;
   imageUrl: string;
-  file: File | null;
+  file?: File;
 };
 
 export function UpdateProfileForm({
@@ -36,15 +36,15 @@ export function UpdateProfileForm({
 }: UpdateProfileFormProps) {
   const { toast } = useToast();
   const { mutateAsync, isPending: isUploadingForm } = useUpdateProfile();
-  const { startUpload, isUploading: isUploadingImage } =
-    useUploadThing("imageUploader");
+  const { uploadImage, isUploading: isUploadingImage } = useUploadImage();
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     name,
     imageUrl,
-    file: null,
+    file: undefined,
   });
 
   const isLoading = isUploadingForm || isUploadingImage;
+  const isEmptyName = !profileForm.name;
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -64,17 +64,9 @@ export function UpdateProfileForm({
     try {
       event.preventDefault();
 
-      let thumbnail = "";
-
-      if (profileForm.file) {
-        const extension = profileForm.file.name.split(".").pop();
-        const newFile = new File(
-          [profileForm.file],
-          `profile-image-${email}.${extension}`,
-        );
-        const [{ url }] = (await startUpload([newFile])) as { url: string }[];
-        thumbnail = url;
-      }
+      const thumbnail =
+        profileForm.file &&
+        (await uploadImage(profileForm.file, `profile-image-${email}`));
 
       await mutateAsync({
         name: profileForm.name,
@@ -123,7 +115,7 @@ export function UpdateProfileForm({
 
         <AuthProvidersList userLinkedProviders={userLinkedProviders} />
 
-        <Button disabled={isLoading}>
+        <Button disabled={isLoading || isEmptyName}>
           {isLoading ? (
             <Loader className="mr-2 h-4 w-4 animate-spin" />
           ) : (
