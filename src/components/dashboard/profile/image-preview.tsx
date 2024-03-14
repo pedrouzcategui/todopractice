@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Loader2 } from "lucide-react";
 
 type ImagePreviewProps = {
   handleImageChange: (file: React.ChangeEvent<HTMLInputElement>) => void;
@@ -28,7 +29,9 @@ export function ImagePreview({
       />
       <Avatar onClick={handleOpenFileSelector} className="h-36 w-36">
         <AvatarImage src={imageUrl} alt="Current profile image" />
-        <AvatarFallback>Change</AvatarFallback>
+        <AvatarFallback>
+          <Loader2 className="h-6 w-6 animate-spin" />
+        </AvatarFallback>
       </Avatar>
     </figure>
   );

@@ -5,7 +5,7 @@ import { Button, Input, Label } from "@/components/ui";
 import { useToast } from "@/components/ui/use-toast";
 import { AuthProvider } from "@/constants/auth";
 import { useUpdateProfile } from "@/hooks/profile";
-import { Loader } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { AuthProvidersList } from "./auth-providers-list";
 import { useUploadImage } from "@/hooks/uploadImage";
@@ -117,7 +117,7 @@ export function UpdateProfileForm({
 
         <Button disabled={isLoading || isEmptyName}>
           {isLoading ? (
-            <Loader className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <span>Save</span>
           )}
