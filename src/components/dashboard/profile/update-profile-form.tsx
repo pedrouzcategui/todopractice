@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { AuthProvidersList } from "./auth-providers-list";
 import { useUploadImage } from "@/hooks/uploadImage";
+import { useRouter } from "next/navigation";
 
 const FORM_IDS = {
   name: "name",
@@ -35,6 +36,7 @@ export function UpdateProfileForm({
   userLinkedProviders,
 }: UpdateProfileFormProps) {
   const { toast } = useToast();
+  const { refresh } = useRouter();
   const { mutateAsync, isPending: isUploadingForm } = useUpdateProfile();
   const { uploadImage, isUploading: isUploadingImage } = useUploadImage();
   const [profileForm, setProfileForm] = useState<ProfileForm>({
@@ -78,6 +80,10 @@ export function UpdateProfileForm({
         description: "Your changes has been saved.",
         variant: "success",
       });
+
+      // Refresh the page to reflect the image change in the `VerticalNavigation` component
+      // which consumes the user's image from the session too
+      refresh();
     } catch (error) {
       toast({
         title: "Failed to update profile",

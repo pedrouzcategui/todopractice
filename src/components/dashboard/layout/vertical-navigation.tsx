@@ -12,6 +12,9 @@ import {
   Settings as SettingsIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { getSession } from "@/lib/user";
+import { Session } from "next-auth";
+import { PLACEHOLDER_IMAGE_URL } from "@/constants/common";
 
 type NavigationItemProps = {
   title: string;
@@ -49,7 +52,9 @@ function NavigationItem({ href, title, icon: Icon }: NavigationItemProps) {
   );
 }
 
-export function VerticalNavigation() {
+export async function VerticalNavigation() {
+  const { user } = (await getSession()) as Session;
+
   const NAVIGATION_ITEMS = [
     {
       title: "Dashboard",
@@ -73,10 +78,10 @@ export function VerticalNavigation() {
 
       <footer>
         <Avatar className="rounded-md md:block">
-          {/* TODO: `src` property should reference to user avatar database column */}
-          <AvatarImage src="https://www.clipartmax.com/png/middle/105-1055054_view-golang-think-logo-golang.png" />
-          {/* TODO: fallback should be fullfilled with the first letters of the user name and lastname */}
-          <AvatarFallback>GO</AvatarFallback>
+          <AvatarImage src={user.image ?? PLACEHOLDER_IMAGE_URL} />
+          <AvatarFallback>
+            <div className="h-full w-full bg-gray-200 animate-pulse" />
+          </AvatarFallback>
         </Avatar>
       </footer>
     </nav>
