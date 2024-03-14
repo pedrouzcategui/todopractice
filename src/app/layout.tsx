@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Open_Sans as FontSans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontSans = FontSans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,6 +26,8 @@ export default async function RootLayout({
         )}
       >
         <Providers>{children}</Providers>
+
+        <Toaster />
       </body>
     </html>
   );
