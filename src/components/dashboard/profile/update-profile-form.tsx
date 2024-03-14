@@ -1,52 +1,20 @@
 "use client";
 
-import { ImageInput } from "@/components/image-input";
+import { ImagePreview } from "./image-preview";
 import { Button, Input, Label } from "@/components/ui";
 import { useToast } from "@/components/ui/use-toast";
+import { AUTH_PROVIDERS, AuthProvider } from "@/constants/auth";
 import { useUpdateProfile } from "@/hooks/profile";
 import { useUploadThing } from "@/lib/files";
 import { cn } from "@/lib/utils";
-import {
-  IconType,
-  SiDiscord as DiscordIcon,
-  SiGithub as GithubIcon,
-  SiGoogle as GoogleIcon,
-} from "@icons-pack/react-simple-icons";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 
-type AuthProviders = "google" | "discord" | "github";
-const AUTH_PROVIDERS = [
-  "google",
-  "discord",
-  "github",
-] satisfies AuthProviders[];
-
-type ProviderItemProps = {
-  color: string;
-  Icon: IconType;
-};
-
-const AUTH_PROVIDERS_STYLES = {
-  google: {
-    color: "bg-google",
-    Icon: GoogleIcon,
-  },
-  discord: {
-    color: "bg-discord",
-    Icon: DiscordIcon,
-  },
-  github: {
-    color: "bg-github",
-    Icon: GithubIcon,
-  },
-} satisfies Record<AuthProviders, ProviderItemProps>;
-
 type AuthProvidersListProps = {
-  providers: AuthProviders[];
+  userLinkedProviders: AuthProvider[];
 };
 
-function AuthProvidersList({ providers }: AuthProvidersListProps) {
+function AuthProvidersList({ userLinkedProviders }: AuthProvidersListProps) {
   return (
     <section className="flex flex-col gap-2">
       <header>
@@ -54,9 +22,12 @@ function AuthProvidersList({ providers }: AuthProvidersListProps) {
       </header>
 
       <ul className="flex justify-center gap-4">
-        {AUTH_PROVIDERS.map((provider) => {
-          const isLinked = providers.includes(provider);
-          const { color, Icon } = AUTH_PROVIDERS_STYLES[provider];
+        {Object.keys(AUTH_PROVIDERS).map((provider) => {
+          // Iterates over the all the available providers and checks if the user has linked them
+          const isLinked = userLinkedProviders.includes(
+            provider as AuthProvider,
+          );
+          const { styles, Icon } = AUTH_PROVIDERS[provider as AuthProvider];
 
           return (
             <li key={provider}>
@@ -66,7 +37,7 @@ function AuthProvidersList({ providers }: AuthProvidersListProps) {
                 size="icon"
                 className={cn(
                   "p-2 pointer-events-none",
-                  color,
+                  styles.backgroundColor,
                   !isLinked && "opacity-45",
                 )}
               >
@@ -92,17 +63,17 @@ const FORM_IDS = {
 } as const;
 
 type UpdateProfileFormProps = {
-  authProviders: string[];
+  userLinkedProviders: AuthProvider[];
   email: string;
   name: string;
-  image?: string;
+  imageUrl: string;
 };
 
 export function UpdateProfileForm({
   email,
-  image,
+  imageUrl,
   name,
-  authProviders,
+  userLinkedProviders,
 }: UpdateProfileFormProps) {
   const { toast } = useToast();
   const { mutateAsync, isPending: isUploadingForm } = useUpdateProfile();
@@ -113,7 +84,7 @@ export function UpdateProfileForm({
 
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     name,
-    imageUrl: image ?? "",
+    imageUrl,
     file: null,
   });
 
@@ -166,9 +137,9 @@ export function UpdateProfileForm({
   };
   return (
     <section className="w-full flex flex-col gap-4 items-center justify-center">
-      <ImageInput
+      <ImagePreview
         handleImageChange={handleImageChange}
-        image={profileForm.imageUrl}
+        imageUrl={profileForm.imageUrl}
       />
 
       <form onSubmit={handleSubmitForm} className="w-full flex flex-col gap-6">
@@ -192,7 +163,7 @@ export function UpdateProfileForm({
           />
         </div>
 
-        <AuthProvidersList providers={authProviders as AuthProviders[]} />
+        <AuthProvidersList userLinkedProviders={userLinkedProviders} />
 
         <Button disabled={isLoading}>
           {isLoading ? (

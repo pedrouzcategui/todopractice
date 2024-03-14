@@ -3,15 +3,17 @@
 import React, { useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-type ImageInputProps = {
-  image?: string;
+type ImagePreviewProps = {
   handleImageChange: (file: React.ChangeEvent<HTMLInputElement>) => void;
+  imageUrl: string;
 };
 
-export function ImageInput({ image, handleImageChange }: ImageInputProps) {
+export function ImagePreview({
+  imageUrl,
+  handleImageChange,
+}: ImagePreviewProps) {
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  // TODO: add logic for handling image uploads
   const handleOpenFileSelector = () => {
     imageInputRef.current?.click();
   };
@@ -25,7 +27,7 @@ export function ImageInput({ image, handleImageChange }: ImageInputProps) {
         className="hidden"
       />
       <Avatar onClick={handleOpenFileSelector} className="h-36 w-36">
-        <AvatarImage src={image} alt="Current profile image" />
+        <AvatarImage src={imageUrl} alt="Current profile image" />
         <AvatarFallback>Change</AvatarFallback>
       </Avatar>
     </figure>

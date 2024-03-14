@@ -1,5 +1,7 @@
 import { UpdateProfileForm } from "@/components/dashboard/profile/update-profile-form";
 import { Card } from "@/components/ui/card";
+import { AuthProvider } from "@/constants/auth";
+import { PLACEHOLDER_IMAGE_URL } from "@/constants/common";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/user";
 import { Session } from "next-auth";
@@ -13,7 +15,10 @@ export default async function ProfilePage() {
     select: { provider: true },
   });
 
-  const authProviders = linkedAccounts.map(({ provider }) => provider);
+  // We cast the provider to AuthProvider because we are sure that the provider is one of the available providers
+  const userLinkedProviders = linkedAccounts.map(
+    ({ provider }) => provider,
+  ) as AuthProvider[];
 
   return (
     <section className="flex justify-center items-center">
@@ -25,8 +30,8 @@ export default async function ProfilePage() {
         <UpdateProfileForm
           name={user.name!} // The user's name is guaranteed to be defined
           email={user.email!} //  The user's email is guaranteed to be defined
-          image={user.image ?? undefined} // We cast `null` values to `undefined` in order to avoid handling absent value representation redundancy
-          authProviders={authProviders}
+          imageUrl={user.image ?? PLACEHOLDER_IMAGE_URL}
+          userLinkedProviders={userLinkedProviders}
         />
       </Card>
     </section>
