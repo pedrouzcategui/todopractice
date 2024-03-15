@@ -23,6 +23,7 @@ export default function Controls() {
   return (
     <section className="flex gap-6">
       <Input
+        className="bg-white"
         defaultValue={query.search}
         type="search"
         placeholder="Search workspaces"

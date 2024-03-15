@@ -40,7 +40,7 @@ export default async function WorkspacesPage({ searchParams }: PageProps) {
   });
 
   return (
-    <main className="p-4 bg-background">
+    <section className="bg-background">
       <header className="mb-12">
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
           Workspaces
@@ -75,6 +75,6 @@ export default async function WorkspacesPage({ searchParams }: PageProps) {
           </article>
         ))}
       </section>
-    </main>
+    </section>
   );
 }
