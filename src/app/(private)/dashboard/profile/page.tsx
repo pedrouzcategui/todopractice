@@ -1,6 +1,5 @@
 import { UpdateProfileForm } from "@/components/dashboard/profile/update-profile-form";
 import { Card } from "@/components/ui/card";
-import { AuthProvider } from "@/constants/auth";
 import { PLACEHOLDER_IMAGE_URL } from "@/constants/common";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/user";
@@ -16,9 +15,7 @@ export default async function ProfilePage() {
   });
 
   // We cast the provider to AuthProvider because we are sure that the provider is one of the available providers
-  const userLinkedProviders = linkedAccounts.map(
-    ({ provider }) => provider,
-  ) as AuthProvider[];
+  const userLinkedProviders = linkedAccounts.map(({ provider }) => provider);
 
   return (
     <section className="flex justify-center items-center">

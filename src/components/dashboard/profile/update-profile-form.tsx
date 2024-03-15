@@ -3,7 +3,6 @@
 import { ImagePreview } from "./image-preview";
 import { Button, Input, Label } from "@/components/ui";
 import { useToast } from "@/components/ui/use-toast";
-import { AuthProvider } from "@/constants/auth";
 import { useUpdateProfile } from "@/hooks/profile";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -17,7 +16,7 @@ const FORM_IDS = {
 } as const;
 
 type UpdateProfileFormProps = {
-  userLinkedProviders: AuthProvider[];
+  userLinkedProviders: string[];
   email: string;
   name: string;
   imageUrl: string;

@@ -3,7 +3,7 @@ import { AUTH_PROVIDERS, AuthProvider } from "@/constants/auth";
 import { cn } from "@/lib/utils";
 
 type AuthProvidersListProps = {
-  userLinkedProviders: AuthProvider[];
+  userLinkedProviders: string[];
 };
 
 export function AuthProvidersList({
@@ -18,9 +18,7 @@ export function AuthProvidersList({
       <ul className="flex justify-center gap-4">
         {Object.keys(AUTH_PROVIDERS).map((provider) => {
           // Iterates over the all the available providers and checks if the user has linked them
-          const isLinked = userLinkedProviders.includes(
-            provider as AuthProvider,
-          );
+          const isLinked = userLinkedProviders.includes(provider);
           const { styles, Icon } = AUTH_PROVIDERS[provider as AuthProvider];
 
           return (
