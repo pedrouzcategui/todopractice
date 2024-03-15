@@ -10,15 +10,17 @@ export default async function DashboardLayout({
   const session = await getSession();
 
   if (!session) return null;
-  // else if (session.user.redirectToTutorial) redirect("/tutorial");
+  else if (session.user.redirectToTutorial) redirect("/tutorial");
 
   return (
-    <main className="min-h-screen flex flex-col md:flex-row">
+    <main className="h-screen flex flex-col overflow-hidden md:flex-row">
       <aside className="flex-grow-0">
         <VerticalNavigation />
       </aside>
 
-      <section className="flex-grow p-4 md:p-10">{children}</section>
+      <section className="flex-grow p-4 overflow-y-auto md:p-10">
+        {children}
+      </section>
     </main>
   );
 }
