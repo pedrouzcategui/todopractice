@@ -1,6 +1,6 @@
 'use client'
 import { Button, Input, Textarea } from '@/components/ui';
-import { TaskStatus, User } from '@prisma/client';
+import { Task, TaskStatus, User } from '@prisma/client';
 import React from 'react';
 import {
     Select,
@@ -15,7 +15,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeftIcon } from 'lucide-react';
 
-type TaskCreationForm = {
+type TaskEditionForm = {
     title: string,
     description: string,
     status: TaskStatus,
@@ -25,25 +25,26 @@ type TaskCreationForm = {
     createdById: string,
 }
 
-type TaskCreationFormProps = {
+type TaskEditionFormProps = {
     users: User[],
     workspaceId: string,
-    createdById: string
+    createdById: string,
+    task: Task
 }
 
-export default function TaskCreationForm({ users, workspaceId, createdById }: TaskCreationFormProps) {
+export default function TaskEditionForm({ users, workspaceId, createdById, task }: TaskEditionFormProps) {
 
     const { toast } = useToast()
     const { mutate: createTask } = useCreateTask()
 
-    const [taskForm, setTaskForm] = React.useState<TaskCreationForm>({
-        title: "",
-        description: "",
+    const [taskForm, setTaskForm] = React.useState<TaskEditionForm>({
+        title: task.title,
+        description: task.status,
         status: "TODO",
-        dueDate: "",
-        asignee_id: users[0].id,
-        workspaceId,
-        createdById,
+        dueDate: task.dueDate ?? "",
+        asignee_id: task.assigneeId ?? "",
+        workspaceId: task.workspaceId,
+        createdById: task.createdById,
     })
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -106,7 +107,7 @@ export default function TaskCreationForm({ users, workspaceId, createdById }: Ta
             <div className='bg-white p-5 rounded shadow'>
                 <div className="grid grid-cols-2 mb-3">
                     <div className='flex items-center'>
-                        <h1 className="font-bold text-2xl">Create Task</h1>
+                        <h1 className="font-bold text-2xl">Edit Task</h1>
                     </div>
                     <div className="flex">
                         <div className='flex-grow'>
@@ -134,7 +135,7 @@ export default function TaskCreationForm({ users, workspaceId, createdById }: Ta
                 <div className="grid grid-cols-4 gap-3 mb-3">
                     <div className="col-span-3">
                         <label htmlFor="title">Task Title</label>
-                        <Input placeholder="Ex: Recruit Cyborg to the justice league" name='title' onChange={handleFormChange} />
+                        <Input value={task.title} placeholder="Ex: Recruit Cyborg to the justice league" name='title' onChange={handleFormChange} />
                     </div>
                     <div>
                         <label htmlFor="dueDate">Due Date</label>
@@ -142,9 +143,9 @@ export default function TaskCreationForm({ users, workspaceId, createdById }: Ta
                     </div>
                 </div>
                 <div>
-                    <Textarea name='description' onChange={handleFormChange} />
+                    <Textarea name='description' value={task.description} onChange={handleFormChange} />
                 </div>
-                <Button className="block ml-auto mt-4" onClick={handleSubmit}>Create</Button>
+                <Button className="block ml-auto mt-4" onClick={handleSubmit}>Edit</Button>
             </div>
         </div>
 

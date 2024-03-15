@@ -12,7 +12,7 @@ export default async function TaskCreationPage({ params }: { params: { workspace
     if (!user?.id) return null;
 
     return (
-        <div className="w-4/5 p-4 bg-white mx-auto">
+        <div className="p-4 h-screen flex flex-col justify-center">
             <TaskCreationForm workspaceId={workspaceId} users={users} createdById={user.id} />
         </div>
     );
