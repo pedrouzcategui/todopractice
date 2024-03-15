@@ -16,7 +16,6 @@
     "@typescript-eslint/consistent-type-definitions": [
       "error",
       "type"
-    ],
-    "@next/next/no-img-element": "off"
+    ]
   }
 }
