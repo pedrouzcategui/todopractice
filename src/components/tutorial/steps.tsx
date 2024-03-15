@@ -10,6 +10,7 @@ import clsx from "clsx";
 import { nanoid } from "nanoid";
 import { useRouter } from "next/navigation";
 import { useTutorialContext } from "./context";
+import { PLACEHOLDER_IMAGE_URL } from "@/constants/common";
 
 const TUTORIAL_STEPS = [
   {
@@ -147,7 +148,7 @@ function StepWrapper({
 
 function WorkspacePreview() {
   const { form } = useTutorialContext();
-  let imageUrl = "https://placehold.co/150x150";
+  let imageUrl = PLACEHOLDER_IMAGE_URL;
 
   if (form.thumbnail) {
     imageUrl = URL.createObjectURL(form.thumbnail || new Blob());
