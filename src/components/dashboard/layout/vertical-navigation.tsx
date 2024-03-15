@@ -10,6 +10,7 @@ import {
   LucideIcon,
   BarChart2 as DashboardIcon,
   Settings as SettingsIcon,
+  Folders as WorkspacesIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -55,6 +56,11 @@ export function VerticalNavigation() {
       title: "Dashboard",
       icon: DashboardIcon,
       href: "/dashboard",
+    },
+    {
+      title: "Workspaces",
+      icon: WorkspacesIcon,
+      href: "/dashboard/workspaces",
     },
     {
       title: "Settings",
