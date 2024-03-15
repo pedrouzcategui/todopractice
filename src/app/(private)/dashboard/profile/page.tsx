@@ -3,11 +3,13 @@ import { Card } from "@/components/ui/card";
 import { PLACEHOLDER_IMAGE_URL } from "@/constants/common";
 import { db } from "@/lib/db";
 import { getSession } from "@/lib/user";
-import { Session } from "next-auth";
 
 export default async function ProfilePage() {
-  // The session is guaranteed to be defined because the route is protected by dashboard layout
-  const { user } = (await getSession()) as Session;
+  const { user } = (await getSession()) ?? {};
+
+  if (!user) {
+    throw new Error("User is not defined");
+  }
 
   const linkedAccounts = await db.account.findMany({
     where: { userId: user.id },
